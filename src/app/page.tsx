@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { useChat } from "ai/react";
 import MessageChat from "@/components/message-chat";
+import { CornerDownLeft } from 'lucide-react';
 
 export default function Chat() {
   const { messages, input, handleInputChange, handleSubmit, setMessages, isLoading, error } = useChat();
@@ -26,8 +27,8 @@ export default function Chat() {
   };
 
   return (
-    <div className="flex justify-center mt-20 mb-24">
-      <div className="space-y-4 px-4 py-2 md:py-4 w-1/2 overflow-y-auto">
+    <div className="flex justify-center mt-20 mb-32">
+      <div className="space-y-4 px-4 py-2 md:py-4 xl:w-1/2 md:w-full sm:w-full overflow-y-auto">
         {messages.map((message) => (
           <div className="py-1 w-full">
             <MessageChat key={message.id} message={message} />
@@ -53,9 +54,9 @@ export default function Chat() {
         )}
       </div>
       <div className="grid w-full fixed bottom-0 place-items-center">
-        <div className="bg-background space-y-4 border-t px-4 py-2 shadow-lg sm:rounded-t-xl sm:border md:py-4 w-1/2">
+        <div className="bg-background space-y-4 border-t px-4 py-4 shadow-lg xl:rounded-t-xl border  xl:w-1/2 sm:w-full">
           <form onSubmit={handleSubmit}>
-            <div className="bg-background relative flex max-h-60 w-full grow flex-col overflow-hidden px-8 sm:rounded-md sm:border">
+            <div className="bg-background relative flex max-h-60 w-full grow flex-col overflow-hidden px-8 rounded-md border">
               <input
                 id="chat-textarea"
                 tabIndex={0}
@@ -63,17 +64,20 @@ export default function Chat() {
                 style={{ height: textAreaHeight }}
                 value={input}
                 onChange={handleInputChange}
-                placeholder="Say something"
+                placeholder="Kirim sebuah pesan."
                 autoComplete="off"
                 autoCorrect="off"
               ></input>
               <div className="absolute right-0 top-[13px] sm:right-4">
                 <Button type="submit" disabled={isLoading || input.length === 0}>
-                  Send
+                  <CornerDownLeft className="" size={16}/>
                 </Button>
               </div>
             </div>
           </form>
+          <div>
+            <h6 className="text-xs text-center text-gray-500">© Dako Brand & Communication 2024</h6>
+          </div>
         </div>
       </div>
     </div>
