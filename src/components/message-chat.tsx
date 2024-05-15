@@ -39,9 +39,7 @@ export default function MessageChat({
         )}
         style={{ maxWidth: "100%" }}
       >
-        <ReactMarkdown>
-        {content}
-        </ReactMarkdown>
+        <ReactMarkdown>{content}</ReactMarkdown>
       </div>
     </div>
   );
