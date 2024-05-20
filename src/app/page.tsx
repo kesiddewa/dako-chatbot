@@ -4,21 +4,34 @@ import React, { useState, useEffect, useRef, FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { useChat } from "ai/react";
 import MessageChat from "@/components/message-chat";
-import { CornerDownLeft } from 'lucide-react';
+import { CornerDownLeft } from "lucide-react";
 import ScrollButton from "@/components/scroll-button";
 import WelcomeScreen from "@/components/welcome-screen";
+import { Loader2 } from "lucide-react";
 
 export default function Chat() {
-  const { messages, input, handleInputChange, handleSubmit: originalHandleSubmit, isLoading, error } = useChat();
+  const {
+    messages,
+    input,
+    handleInputChange,
+    handleSubmit: originalHandleSubmit,
+    isLoading,
+    error,
+  } = useChat();
   const [textAreaHeight, setTextAreaHeight] = useState("60px");
   const [isVisible, setIsVisible] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
+  const bottomRef = useRef<HTMLDivElement>(null);
 
   const lastMessageIsUser = messages[messages.length - 1]?.role === "user";
 
   useEffect(() => {
     adjustTextAreaHeight();
   }, [input]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, isLoading, error]);
 
   const adjustTextAreaHeight = () => {
     const textArea = document.getElementById("chat-textarea");
@@ -41,6 +54,12 @@ export default function Chat() {
     originalHandleSubmit(event);
   };
 
+  const scrollToBottom = () => {
+    if (bottomRef.current) {
+      bottomRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="flex justify-center mt-20 mb-32">
       <div className="space-y-4 px-4 py-2 md:py-4 xl:w-1/2 md:w-full sm:w-full overflow-y-auto">
@@ -51,11 +70,11 @@ export default function Chat() {
           </div>
         ))}
         {isLoading && lastMessageIsUser && (
-          <MessageChat 
+          <MessageChat
             message={{
               id: "loading",
               role: "assistant",
-              content: "....",
+              content: "Memuat...",
             }}
           />
         )}
@@ -64,10 +83,11 @@ export default function Chat() {
             message={{
               id: "error",
               role: "assistant",
-              content: "Something went wrong. Please try again"
+              content: "Terdapat kesalahan. Silahkan coba kembali",
             }}
           />
         )}
+        <div ref={bottomRef}></div>
       </div>
       <div className="grid w-full fixed bottom-0 place-items-center">
         <ScrollButton />
@@ -86,14 +106,23 @@ export default function Chat() {
                 autoCorrect="off"
               />
               <div className="absolute top-[13px] right-4">
-                <Button type="submit" disabled={isLoading || input.length === 0}>
-                  <CornerDownLeft size={16} />
+                <Button
+                  type="submit" 
+                  disabled={isLoading || input.length === 0}
+                >
+                  {isLoading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <CornerDownLeft size={16} />
+                  )}
                 </Button>
               </div>
             </div>
           </form>
           <div>
-            <h6 className="text-xs text-center text-gray-500">© Dako Brand & Communication 2024</h6>
+            <h6 className="text-xs text-center text-gray-500">
+              © Dako Brand & Communication 2024
+            </h6>
           </div>
         </div>
       </div>
