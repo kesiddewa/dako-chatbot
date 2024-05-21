@@ -22,37 +22,64 @@ DakoBot adalah chatbot berbasis web yang dirancang untuk membantu pelanggan dan 
 ### Teknologi yang Digunakan
 * [![Next][Next.js]][Next-url]
 * [![React][React.js]][React-url]
+* [![GeminiAPI][Gemini]][Gemini-url]
+* [![AISDK][VercelAISDK]][AISDK-url]
+* [![Tailwind][TailwindCSS]][Tailwind-url]
+* [![Shadcn][ShadcnUI]][Shadcn-url]
 
 ## Instalasi
 
 ### Prasyarat
 - Node.js (versi terbaru)
 - npm atau yarn
+- API Key dari Google Gemini
 
 ### Langkah Instalasi
 
+#### 1. Clone Repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/kesiddewa/dako-chatbot.git
+cd dako-chatbot
+```
+#### 2. Instalasi Dependensi:
+
+Menggunakan npm:
+```bash
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Menggunakan yarn:
+```bash
+yarn install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+#### 3. Konfigurasi Environment
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Buat file **.env.local** di root direktori dan tambahkan konfigurasi berikut:
+```bash
+GOOGLE_API_KEY=your_google_gemini_api_key
+```
 
-## Learn More
+#### 4. Menjalankan Aplikasi
 
-To learn more about Next.js, take a look at the following resources:
+Menggunakan npm:
+```bash
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Menggunakan yarn:
+```bash
+yarn dev
+```
+
+## Panduan Penggunaan
+
+#### 1. Mengakses Chatbot 
+Buka browser dan akses http://localhost:3000 untuk melihat aplikasi chatbot.
+
+#### 2. Berinteraksi dengan Chatbot 
+- Ketikkan pesan Anda di kotak input dan tekan enter.
+- Chatbot akan merespons menggunakan Google Gemini API.
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
@@ -67,3 +94,11 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 [Next-url]: https://nextjs.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
+[Gemini]: https://img.shields.io/badge/Google%20Gemini-black?style=for-the-badge&logo=googlegemini&logoColor=%238E75B2
+[Gemini-url]:https://ai.google.dev/gemini-api
+[VercelAISDK]: https://img.shields.io/badge/Vercel%20AI%20SDK-black?style=for-the-badge&logo=vercel&logoColor=white
+[AISDK-url]: https://sdk.vercel.ai/docs/introduction
+[TailwindCSS]: https://img.shields.io/badge/Tailwind%20CSS-black?style=for-the-badge&logo=tailwindcss&logoColor=%2306B6D4
+[Tailwind-url]: https://tailwindcss.com/docs/flex
+[ShadcnUI]: https://img.shields.io/badge/Shadcn%2Fui-black?style=for-the-badge&logo=shadcnui&logoColor=white
+[Shadcn-url]: https://ui.shadcn.com/
