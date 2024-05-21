@@ -1,6 +1,6 @@
 import { Button } from "./ui/button";
-import { SquarePen } from 'lucide-react';
-import { MessagesSquare } from 'lucide-react';
+import { SquarePen } from "lucide-react";
+import { MessagesSquare } from "lucide-react";
 
 const Navbar = () => {
   return (

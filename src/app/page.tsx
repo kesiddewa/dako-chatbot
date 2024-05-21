@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useState, useEffect, useRef, FormEvent } from "react";
-import { Button } from "@/components/ui/button";
 import { useChat } from "ai/react";
+import { Button } from "@/components/ui/button";
 import MessageChat from "@/components/message-chat";
-import { CornerDownLeft } from "lucide-react";
 import ScrollButton from "@/components/scroll-button";
 import WelcomeScreen from "@/components/welcome-screen";
-import { Loader2 } from "lucide-react";
+import { CornerDownLeft, Loader2 } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Chat() {
   const {
@@ -20,7 +20,6 @@ export default function Chat() {
   } = useChat();
   const [textAreaHeight, setTextAreaHeight] = useState("60px");
   const [isVisible, setIsVisible] = useState(true);
-  const inputRef = useRef<HTMLInputElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   const lastMessageIsUser = messages[messages.length - 1]?.role === "user";
@@ -70,13 +69,14 @@ export default function Chat() {
           </div>
         ))}
         {isLoading && lastMessageIsUser && (
-          <MessageChat
-            message={{
-              id: "loading",
-              role: "assistant",
-              content: "Memuat...",
-            }}
-          />
+          <div className="flex items-start space-x-4 animate-pulse">
+            <Skeleton className="bg-gray-200 dark:bg-gray-700 rounded-md w-10 h-10" />
+            <div className="flex-1 space-y-2">
+              <Skeleton className="bg-gray-200 dark:bg-gray-700 h-4 rounded-md w-4/5" />
+              <Skeleton className="bg-gray-200 dark:bg-gray-700 h-4 rounded-md w-4/5" />
+              <Skeleton className="bg-gray-200 dark:bg-gray-700 h-4 rounded-md w-2/3" />
+            </div>
+          </div>
         )}
         {error && (
           <MessageChat
