@@ -1,12 +1,12 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { GoogleGenerativeAIStream, Message, StreamingTextResponse } from "ai";
 
+// Instansiasi Google Generative AI dengan API key dari environment variable
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY || "");
 
-export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic"; // Mengatur endpoint sebagai dinamis
 
-// convert messages from the Vercel AI SDK Format to the format
-// that is expected by the Google GenAI SDK
+// Mengkonversi pesan dari format Vercel AI ke format yang diharapkan oleh Google GenAI SDK
 const buildGoogleGenAIPrompt = (messages: Message[]) => ({
   contents: messages
     .filter(
@@ -19,9 +19,10 @@ const buildGoogleGenAIPrompt = (messages: Message[]) => ({
 });
 
 export async function POST(req: Request) {
-  // Extract the `prompt` from the body of the request
+  // Ekstrak `messages` dari body request
   const { messages } = await req.json();
 
+  // Menggunakan Google Generative AI untuk mendapatkan streaming konten
   const geminiStream = await genAI
     .getGenerativeModel({
       model: "gemini-1.5-pro-latest",
@@ -30,9 +31,9 @@ export async function POST(req: Request) {
     })
     .generateContentStream(buildGoogleGenAIPrompt(messages));
 
-  // Convert the response into a friendly text-stream
+  // Mengkonversi respons ke format streaming teks yang sesuai
   const stream = GoogleGenerativeAIStream(geminiStream);
 
-  // Respond with the stream
+  // Mengembalikan streaming text response
   return new StreamingTextResponse(stream);
 }

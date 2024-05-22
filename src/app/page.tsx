@@ -10,6 +10,7 @@ import { CornerDownLeft, Loader2 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Chat() {
+  // Hook useChat digunakan untuk mengelola status chat seperti messages, input, dan isLoading
   const {
     messages,
     input,
@@ -18,20 +19,11 @@ export default function Chat() {
     isLoading,
     error,
   } = useChat();
+
+  // State untuk mengelola tinggi textarea
   const [textAreaHeight, setTextAreaHeight] = useState("60px");
-  const [isVisible, setIsVisible] = useState(true);
-  const bottomRef = useRef<HTMLDivElement>(null);
 
-  const lastMessageIsUser = messages[messages.length - 1]?.role === "user";
-
-  useEffect(() => {
-    adjustTextAreaHeight();
-  }, [input]);
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages, isLoading, error]);
-
+  // Fungsi untuk menyesuaikan tinggi textarea secara dinamis
   const adjustTextAreaHeight = () => {
     const textArea = document.getElementById("chat-textarea");
     if (textArea) {
@@ -41,10 +33,20 @@ export default function Chat() {
     }
   };
 
+  // Menyesuaikan tinggi textarea saat input berubah
+  useEffect(() => {
+    adjustTextAreaHeight();
+  }, [input]);
+
+  // State untuk mengatur visibilitas komponen welcome-screen
+  const [isVisible, setIsVisible] = useState(true);
+
+  // Fungsi untuk mengubah visibilitas komponen welcome-screen
   const toggleVisibility = () => {
     setIsVisible(!isVisible);
   };
 
+  // Fungsi untuk menangani submit form
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (isVisible) {
@@ -53,18 +55,32 @@ export default function Chat() {
     originalHandleSubmit(event);
   };
 
+  // Ref untuk referensi ke elemen paling bawah dari chat, untuk scroll
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  // Scroll ke bagian bawah saat messages, isLoading, atau error berubah
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, isLoading, error]);
+
+  // Fungsi untuk menggulir ke bagian bawah dari chat
   const scrollToBottom = () => {
     if (bottomRef.current) {
       bottomRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
 
+  // Variabel untuk mengecek apakah pesan terakhir berasal dari pengguna
+  const lastMessageIsUser = messages[messages.length - 1]?.role === "user";
+
   return (
     <div className="flex justify-center mt-20 mb-32">
       <div className="space-y-4 px-4 py-2 md:py-4 xl:w-1/2 md:w-full sm:w-full overflow-y-auto">
+        {/* Menampilkan komponen welcome-screen jika isVisible true */}
         {isVisible && <WelcomeScreen />}
         {messages.map((message) => (
           <div className="py-1 w-full" key={message.id}>
+            {/* Menampilkan setiap pesan */}
             <MessageChat message={message} />
           </div>
         ))}
@@ -80,6 +96,7 @@ export default function Chat() {
         )}
         {error && (
           <MessageChat
+            /* Menampilkan pesan error jika terjadi kesalahan */
             message={{
               id: "error",
               role: "assistant",
@@ -87,10 +104,10 @@ export default function Chat() {
             }}
           />
         )}
-        <div ref={bottomRef}></div>
+        <div ref={bottomRef}></div> {/* Elemen kosong untuk referensi scroll */}
       </div>
       <div className="grid w-full fixed bottom-0 place-items-center">
-        <ScrollButton />
+        <ScrollButton /> {/* Tombol untuk scroll ke bagian akhir halaman */}
         <div className="bg-background space-y-4 border-t px-4 py-4 shadow-lg xl:rounded-t-xl border xl:w-1/2 sm:w-full">
           <form onSubmit={handleSubmit}>
             <div className="bg-background relative flex max-h-60 w-full grow flex-col overflow-hidden px-8 rounded-md border">
@@ -104,17 +121,17 @@ export default function Chat() {
                 placeholder="Kirim sebuah pesan."
                 autoComplete="off"
                 autoCorrect="off"
-              />
+              /> {/* Input textarea untuk pesan */}
               <div className="absolute top-[13px] right-4">
                 <Button
-                  type="submit" 
+                  type="submit"
                   disabled={isLoading || input.length === 0}
                 >
                   {isLoading ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
                   ) : (
                     <CornerDownLeft size={16} />
-                  )}
+                  )} {/* Tombol kirim pesan dengan ikon loading saat isLoading true */}
                 </Button>
               </div>
             </div>

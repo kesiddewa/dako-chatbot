@@ -1,6 +1,6 @@
 import { Button } from "./ui/button";
 import { SquarePen } from "lucide-react";
-import { MessagesSquare } from "lucide-react";
+import { BotMessageSquare } from "lucide-react";
 
 const Navbar = () => {
   return (
@@ -10,7 +10,7 @@ const Navbar = () => {
     >
       <a href="">
         <div className="flex items-center gap-2">
-          <MessagesSquare /> <h1 className="text-xl font-semibold">DakoBot</h1>
+          <BotMessageSquare /> <h1 className="text-xl font-semibold">DakoBot</h1>
         </div>
       </a>
       <div>
