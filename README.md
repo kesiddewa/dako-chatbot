@@ -1,7 +1,7 @@
 <div align="center">
   <h1>📕 Dokumentasi DakoBot</h1>
-  <strong>Documentation for popular programming languages and frameworks.</strong><br>
-  <strong>Built by the community. Maintained by Codecademy.</strong>
+  <strong>Panduan Instalasi dan Penggunaan dari Website DakoBot</strong><br>
+  <strong>Built for Dako Brand & Communication</strong>
 </div>
 <br>
 
