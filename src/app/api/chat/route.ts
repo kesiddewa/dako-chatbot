@@ -2,7 +2,7 @@ import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { PromptTemplate } from "@langchain/core/prompts";
 import { LangChainAdapter, StreamingTextResponse } from "ai";
 import { formatDocumentsAsString } from "langchain/util/document";
-import { getVectorStore } from "@/lib/pinneconedb";
+import { getVectorStore } from "@/lib/supabase";
 import { RunnablePassthrough, RunnableSequence } from "@langchain/core/runnables";
 import { StringOutputParser } from "@langchain/core/output_parsers";
 

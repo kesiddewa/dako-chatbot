@@ -1,6 +1,6 @@
 import dotenv from "dotenv"
 dotenv.config({path: ".env.local"})
-import { getVectorStore } from "../src/lib/pinneconedb";
+import { getVectorStore } from "../src/lib/supabase";
 import { CheerioWebBaseLoader } from "@langchain/community/document_loaders/web/cheerio";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters"
 
