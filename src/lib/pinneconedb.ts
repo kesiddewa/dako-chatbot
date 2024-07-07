@@ -1,16 +1,20 @@
-/* eslint-disable  @typescript-eslint/no-non-null-assertion */
-import { Pinecone } from "@pinecone-database/pinecone";
 import { GoogleGenerativeAIEmbeddings } from "@langchain/google-genai";
-import { PineconeStore } from "@langchain/pinecone";
+import { SupabaseVectorStore } from "@langchain/community/vectorstores/supabase";
+import { createClient } from "@supabase/supabase-js";
 
-const pinecone = new Pinecone();
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-const pineconeIndex = pinecone.Index(process.env.PINECONE_INDEX!);
+export const client = createClient(supabaseUrl, supabaseKey);
 
 export async function getVectorStore() {
-    return PineconeStore.fromExistingIndex(
-      new GoogleGenerativeAIEmbeddings(),
-      { pineconeIndex}
-    );
-}
+  return SupabaseVectorStore.fromExistingIndex(
+    new GoogleGenerativeAIEmbeddings(),
+    {
+      client,
+      tableName: "documents",
+      queryName: "match_documents",
+    }
+  );
+};
 

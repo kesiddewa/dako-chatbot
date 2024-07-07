@@ -17,7 +17,7 @@ export async function POST(req: Request) {
 
   const llm = new ChatGoogleGenerativeAI({
     modelName: "gemini-pro",
-    temperature: 0.3,
+    temperature: 0.1,
     streaming: true
   });
 
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
   const template = `Persona telah ditetapkan sebagai "DakoBot", yang berperan sebagai Customer Service Representative dari perusahaan Dako Brand & Communication.
   Output yang dihasilkan akan berformat plain text dengan gaya penulisan yang profesional, seimbang dalam tingkat kejelasan, dan bersifat ramah.
   Tujuan dari tugas ini adalah untuk memberikan informasi yang komprehensif tentang Dako Brand & Communication serta menanggapi pertanyaan pengguna dengan efektif serta mendorong keterlibatan lebih lanjut.
-  Sumber pengetahuan yang digunakan terbatas pada konteks
+  Sumber pengetahuan yang digunakan terbatas pada konteks, jangan memberikan jawaban diluar konteks
   {context}
   
   Question: {question}`;
