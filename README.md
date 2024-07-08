@@ -33,6 +33,7 @@ DakoBot adalah chatbot berbasis web yang dirancang untuk membantu pelanggan dan 
 - Node.js (versi terbaru)
 - npm atau yarn
 - API Key dari Google Gemini
+- URL dan ANON Key dari Supabase database
 
 ### Langkah Instalasi
 
@@ -53,14 +54,64 @@ Menggunakan yarn:
 yarn install
 ```
 
-#### 3. Konfigurasi Environment
+#### 3. Mendaftar dan Membuat Proyek di Supabase
 
-Buat file **.env.local** di root direktori dan tambahkan konfigurasi berikut:
+- Daftar atau masuk ke [Supabase](https://supabase.io/).
+- Buat proyek baru dan catat URL dan API Key proyek tersebut.
+
+#### 4. Membuat Tabel dan Fungsi di Supabase
+- Buka Supabase dashboard, masuk ke proyek Anda.
+- Navigasikan ke bagian "SQL Editor" dan masukkan query berikut untuk membuat tabel dan fungsi yang diperlukan:
 ```bash
-GOOGLE_API_KEY=your_google_gemini_api_key
+-- Enable the pgvector extension to work with embedding vectors
+create extension vector;
+
+-- Create a table to store your documents
+create table documents (
+  id bigserial primary key,
+  content text, -- corresponds to Document.pageContent
+  metadata jsonb, -- corresponds to Document.metadata
+  embedding vector(768) -- 1536 works for OpenAI embeddings, change if needed
+);
+
+-- Create a function to search for documents
+create function match_documents (
+  query_embedding vector(768),
+  match_count int default null,
+  filter jsonb DEFAULT '{}'
+) returns table (
+  id bigint,
+  content text,
+  metadata jsonb,
+  similarity float
+)
+language plpgsql
+as $$
+#variable_conflict use_column
+begin
+  return query
+  select
+    id,
+    content,
+    metadata,
+    1 - (documents.embedding <=> query_embedding) as similarity
+  from documents
+  where metadata @> filter
+  order by documents.embedding <=> query_embedding
+  limit match_count;
+end;
+$$;
 ```
 
-#### 4. Menjalankan Aplikasi
+#### 5. Melakukan Konfigurasi Environment
+Di dalam file .env.local, tambahkan konfigurasi berikut:
+```bash
+GOOGLE_API_KEY=your_google_gemini_api_key
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_api_key
+```
+
+#### 7. Menjalankan Aplikasi
 
 Menggunakan npm:
 ```bash
