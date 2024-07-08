@@ -57,7 +57,7 @@ yarn install
 #### 3. Mendaftar dan Membuat Proyek di Supabase
 
 - Daftar atau masuk ke [Supabase](https://supabase.io/).
-- Buat proyek baru dan catat URL dan API Key proyek tersebut.
+- Buat proyek baru dan catat URL dan ANON Key proyek tersebut.
 
 #### 4. Membuat Tabel dan Fungsi di Supabase
 - Buka Supabase dashboard, masuk ke proyek Anda.
@@ -104,12 +104,27 @@ $$;
 ```
 
 #### 5. Melakukan Konfigurasi Environment
+
 Di dalam file .env.local, tambahkan konfigurasi berikut:
 ```bash
 GOOGLE_API_KEY=your_google_gemini_api_key
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_api_key
 ```
+#### 6. Menjalankan Script Embedding
+
+Jalankan perintah berikut untuk melakukan embedding data dan menyimpannya ke dalam Supabase:
+
+Menggunakan npm:
+```bash
+npm run generate
+```
+
+Menggunakan yarn:
+```bash
+yarn generate
+```
+**NB: Jalankan perintah di atas setiap kali akan melakukan penambahan data informasi**
 
 #### 7. Menjalankan Aplikasi
 
