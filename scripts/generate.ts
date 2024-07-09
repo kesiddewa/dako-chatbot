@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config({ path: ".env.local" });
-import { getVectorStore } from "../src/lib/supabase";
+import { getVectorStore, fetchData } from "../src/lib/supabase";
 import { CheerioWebBaseLoader } from "@langchain/community/document_loaders/web/cheerio";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 
@@ -8,6 +8,9 @@ import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 async function generateEmbeddings() {
   // Mengambil vector store dari Supabase
   const vectorStore = await getVectorStore();
+  
+  // Mengambil fungsi FetchData dari Supabase
+  await fetchData();
 
   // Membuat loader untuk mengambil konten dari URL menggunakan CheerioWebBaseLoader
   const loader = new CheerioWebBaseLoader(
@@ -25,6 +28,7 @@ async function generateEmbeddings() {
 
   // Memecah dokumen yang telah diambil menjadi potongan-potongan yang lebih kecil
   const splitDocs = await splitter.splitDocuments(docs);
+
 
   // Menambahkan dokumen yang telah dipecah ke dalam vector store
   await vectorStore.addDocuments(splitDocs);

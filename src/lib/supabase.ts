@@ -20,3 +20,31 @@ export async function getVectorStore() {
     }
   );
 }
+
+// Fungsi untuk mengambil data dari tabel 'documents' di Supabase
+export const fetchData = async () => {
+  const { data, error } = await client.from("documents").select("*"); // Memilih semua kolom. Anda dapat menyesuaikan ini untuk memilih kolom tertentu.
+
+  if (error) {
+    console.error("Error fetching data:", error);
+    return;
+  }
+
+  if (data) {
+    let dataIds: Array<string>;
+    // Mengasumsikan setiap baris memiliki field 'id'
+    dataIds = data.map((row) => row.id);
+
+    // Jika Anda perlu bekerja dengan ID spesifik
+    var firstId = "";
+    if (dataIds.length > 0) {
+      firstId = dataIds[0];
+    }
+
+    // Menghapus data dari vector store berdasarkan ID
+    (await getVectorStore()).delete({ ids: dataIds });
+  }
+};
+
+// Memanggil fungsi fetchData untuk mengambil dan menghapus data dari Supabase
+fetchData();
